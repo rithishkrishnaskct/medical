@@ -1,0 +1,25 @@
+google-generativeai
+python-dotenv
+langchain
+PyPDF2
+faiss-cpu
+langchain_google_genai
+
+
+Flask
+python-dotenv
+google-generativeai
+langchain
+PyPDF2
+faiss-cpu
+
+
+# these:
+# Flask
+python-dotenv
+google-generativeai
+
+langchain
+PyPDF2
+faiss-cpu
+langchain_google_genai
