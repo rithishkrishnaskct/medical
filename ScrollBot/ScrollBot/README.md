@@ -1,96 +1,143 @@
-🚀 ScrollBot — An Intelligent PDF Chatbot Using RAG with Google GenAI, Flask, and FAISS
-ScrollBot is an AI-powered assistant that lets students interact with academic PDFs — like syllabus documents, past year question papers, and more — through natural language questions.
+# 🩺 MediBot — Intelligent Medical PDF Chatbot Using RAG + Google GenAI + Flask + FAISS
 
-Built using a Retrieval-Augmented Generation (RAG) approach, it transforms traditional, non-interactive PDFs into a smart, conversational experience. Whether you're preparing for exams or exploring your course structure, ScrollBot makes it easy to access the information you need — fast and effortlessly.
+MediBot is an AI-powered medical assistant that allows users to upload **drug information PDFs**—such as prescribing information, patient queries, medical guidelines, and research documents—and ask natural-language questions to retrieve accurate, citation-supported answers.
 
-🗂️ Project Structure
-ScrollBot/
+Built using **Retrieval-Augmented Generation (RAG)**, MediBot turns static medical PDFs into an interactive, intelligent, and helpful chatbot designed for medical-students, clinicians, pharmacists, and researchers.
+
+---
+
+## ⭐ Key Features
+
+### 📄 PDF Upload + Extraction
+- Upload any medical/healthcare PDF.
+- Automatic text extraction with **page number tracking**.
+- Extracts clean, structured text ready for semantic search.
+
+### 🧬 Embeddings using Google GenAI
+- Converts text chunks into semantic vectors.
+- Ensures accurate medical context understanding.
+
+### ⚡ High-Speed Search using FAISS
+- FAISS vector index enables **millisecond-level** search.
+- Retrieves the most relevant medical chunks for each query.
+
+### 🤖 GenAI-Powered Answers
+- Google Gemini creates final responses.
+- Answers are grounded in retrieved PDF content.
+
+### 📚 Citations Included
+Each answer contains:
+- PDF name  
+- Page number  
+- Referenced medical snippet  
+
+### 🌐 Flask Web Application
+Includes:
+- User login  
+- User registration  
+- PDF upload  
+- Chat interface  
+- Session handling
+  
+# 🗂️ Complete Project Structure
+
+Below is the full MediBot directory structure:
+```bash
+MediBot/
 │
-├── faiss_index/         # Stores FAISS vector database
-│   ├── index.faiss
-│   └── index.pkl
+├── app.py # Main Flask app: routes, backend logic, chat engine
+├── fiass.py # PDF processing, embeddings, FAISS index creation
+├── test.py # Debug/testing purposes
 │
-├── templates/           # Flask HTML templates
-│   ├── chatbot.html
-│   ├── login.html
-│   └── register.html
+├── requirements.txt # Python dependencies
+├── .env # Contains GOOGLE_API_KEY (created by user)
+├── README.md # Documentation (this file)
 │
-├── images/              # UI/branding screenshots (for README or UI assets)
+├── uploads/ # Folder for user-uploaded medical PDFs
 │
-├── .env                 # Environment variables (e.g., API keys)
-├── app.py               # Main Flask application (routing + frontend logic)
-├── fiass.py             # FAISS + PDF processing logic (backend intelligence)
-├── test.py              # For debugging or testing routes
-├── requirements.txt     # Python dependencies
-└── README.md            # You're reading it!
+├── faiss_index/ # Vector storage for semantic search
+│ ├── index.faiss # FAISS index file
+│ └── index.pkl # Metadata file (mapping chunks → text/pages)
+│
+├── templates/ # Frontend HTML templates (Flask)
+│ ├── login.html
+│ ├── register.html
+│ └── chatbot.html
+│
+└── images/ # Optional UI screenshots for README (not required)
+```
+# 🧠 How MediBot Works (RAG Pipeline)
 
-🧠 How It Works
-This RAG-based system follows the steps below:
+### 1️⃣ PDF Upload  
+User uploads a medical PDF → stored in the `/uploads` folder
 
-1.PDF Upload & Text Chunking
-Documents are loaded and split into manageable chunks.
+### 2️⃣ PDF Processing  
+`fiass.py` handles:
+- Text extraction  
+- Chunking with overlap  
+- Page number tracking  
 
-2.Semantic Vectorization
-Each chunk is embedded using Google GenAI Embeddings.
+### 3️⃣ Embedding Generation  
+Each chunk → converted to an embedding using **Google GenAI embeddings**.
 
-3.Indexing via FAISS
-These vectors are stored in a FAISS vector database for fast retrieval.
+### 4️⃣ FAISS Vector Index  
+Embeddings stored in FAISS:
+- Enables fast semantic search  
+- Helps retrieve correct medical information  
 
-4.User Interaction
-User queries are processed, and the most relevant document content is returned as a chat response.
+### 5️⃣ User Query  
+User types a medical question.
 
-🌐 Web Interface (Frontend)
-🔐 Login/Register
-The app starts with a clean and simple user authentication flow:
-templates/
-├── login.html
-├── register.html
-└── chatbot.html
-💬 Chat Interface
-Once logged in, users can interact with ScrollBot through a smooth, modern chat interface featuring:
+### 6️⃣ Retrieval + LLM  
+- Relevant chunks retrieved from FAISS  
+- Sent to Gemini  
+- Gemini generates a **grounded, accurate medical answer**
 
-Welcome messages
+### 7️⃣ Response Returned  
+Chat UI displays:
+- Final answer  
+- Citations  
+- Page references  
+- Source PDF
+  
+# 🌐 Web Interface (Flask Frontend)
 
-Logout and clear chat options
+### 🔐 Login & Register (Authentication)
+Secure user access using:
+- `login.html`
+- `register.html`
 
-Clean UI styled with HTML/CSS
+### 💬 Chat Interface
+Modern UI for:
+- Chatting with MediBot  
+- Uploading PDFs  
+- Clearing chat  
+- Logging out  
 
-🔧 Behind the Scenes (Backend)
-fiass.py: Vector creation & PDF handling logic
+# ▶️ How to Run MediBot (Step-by-Step)
+```bash
+1. Clone the Repository
+git clone https://github.com/your-username/MediBot.git
+cd MediBot
 
-app.py: Flask app with routes, sessions, and chat logic
-
-.env: Secure storage for API keys
-
-index.faiss & index.pkl: Preprocessed FAISS data
-
-
-▶️ How to Run ScrollBot
-
-1.Clone the repository
-git clone https://github.com/your-username/ScrollBot.git
-
-2.Change into the project directory
-cd ScrollBot
-
-3.(Optional but recommended) Create a virtual environment
+2. Create a Virtual Environment
 python -m venv .venv
-
-4.Activate the virtual environment
-On Windows:
+Activate Environment
+Windows:
 .venv\Scripts\activate
-
-On macOS/Linux:
+macOS/Linux:
 source .venv/bin/activate
 
-5.Install the required Python packages
+3. Install Dependencies
 pip install -r requirements.txt
 
-6.Create a .env file in the root directory and add your API key
+4. Create .env File and Add API Key
+Inside the root folder, create a .env file:
 GOOGLE_API_KEY=your_google_genai_api_key_here
 
-7.Run the Flask app
+5. Run the Flask App
 python app.py
 
-8.Open your browser and go to
+6. Open in Browser
 http://localhost:5000
+```
